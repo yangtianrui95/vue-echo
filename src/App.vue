@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <router-link to="/home">TO HOME</router-link>
-    <router-link to="/article">TO ARTICLE</router-link>
-    <router-link to="/">TO ROOT</router-link>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -10,15 +7,9 @@
 </template>
 
 <script>
-  import HelloWorld from './components/HelloWorld.vue'
-  import Toast from 'mint-ui/lib/toast'
-  import Indicator from 'mint-ui/lib/indicator'
-
   export default {
     name: 'app',
-    components: {
-      HelloWorld
-    },
+    components: {},
 
     beforeMount: function () {
     }
@@ -27,23 +18,44 @@
 </script>
 
 <style lang="stylus">
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+
+  * {
+    margin: 0;
+    padding: 0;
   }
 
-  .msg
-    $bg = red;
-    height: 200px;
-    background: $bg;
+  html {
+    font-size 76.8px
+  }
 
-  a
-    display block
+  body {
+    background: #f4f5f6
+  }
+
+  #app {
+    background: white
+    position relative
+  }
+
+  @media screen and (min-width: 768px) {
+    html {
+      width: 768px;
+      margin: 0 auto;
+    }
+  }
+
+  li, ul, ol {
+    list-style none
+  }
+
+  *, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  a {
+    color inherit
     text-decoration none
-    color: inherit
-
+  }
 </style>

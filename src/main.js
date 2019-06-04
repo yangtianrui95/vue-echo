@@ -4,9 +4,6 @@ import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css';
 import VueRouter from 'vue-router';
 
-import Home from './components/Home.vue'
-import Article from './components/Article.vue'
-
 import MainPage from './pages/index.vue'
 
 // 引入mock
@@ -19,18 +16,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/home',
-    component: Home,
-    meta: {
-      keepAlive: true
-    }
-  }, {
-    path: '/article',
-    component: Article,
-    meta: {
-      keepAlive: false
-    }
-  },{
     path: '/',
     component: MainPage,
     meta: {
