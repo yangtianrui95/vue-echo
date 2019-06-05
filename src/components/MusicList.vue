@@ -41,6 +41,7 @@
       width: 100%
       img {
         width: 100%
+        min-height: 364px
       }
     }
 

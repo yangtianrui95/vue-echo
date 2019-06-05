@@ -4,9 +4,13 @@
     <music-banner :list="musicBanner"></music-banner>
     <div class="recommend-title">echo每日推荐</div>
     <div class="wrapper">
-      <div class="playAll">一键播放</div>
+      <div class="playAll" @click="playAll">一键播放</div>
     </div>
     <music-list :list="musicList"></music-list>
+    <!--通过添加一个wrapper，让music-bar能够在列表位置-->
+    <div class="music-bar-wrapper">
+      <music-bar class="music-bar"></music-bar>
+    </div>
   </div>
 </template>
 
@@ -42,12 +46,23 @@
     top: 50px
   }
 
+  .music-bar-wrapper {
+    .music-bar {
+      position: fixed
+      bottom: 0
+    }
+  }
+
+
 </style>
 
 <script>
   import MusicList from '@/components/MusicList.vue'
+  import MusicBar from '@/components/MusicBar.vue'
   import MusicBanner from '@/components/MusicBanner.vue'
   import net from '@/net'
+  import {mutation} from '@/store'
+  import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: 'index',
@@ -58,13 +73,41 @@
       }
     },
 
+    computed: {
+      ...mapState({
+        audio_data: state => state.audio.data
+      })
+    },
+
+    created() {
+      console.log('index.vue created this => ', this);
+    },
+
     mounted: function () {
       console.log('index.vue mount');
       this.getBannerData();
       this.getListData();
     },
 
+    // 监听变量变化
+    watch: {
+      audio_data() {
+        console.log('watch audio_data');
+      },
+    },
+
     methods: {
+      ...mapMutations([
+        mutation.SET_PLAY_LIST,
+        mutation.SET_AUDIO_DATA
+      ]),
+
+
+      playAll: function () {
+        console.log('playAll');
+        this[mutation.SET_PLAY_LIST](this.musicList);
+      },
+
       getBannerData: function () {
         net.getBanner().then(response => {
           console.log(response);
@@ -92,7 +135,7 @@
     },
 
     components: {
-      MusicList, MusicBanner
+      MusicList, MusicBanner, MusicBar
     }
   }
 </script>

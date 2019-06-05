@@ -3,7 +3,7 @@ import App from './App.vue'
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css';
 import VueRouter from 'vue-router';
-
+import {vueStore as store} from "./store/index";
 import MainPage from './pages/index.vue'
 
 // 引入mock
@@ -33,5 +33,6 @@ new Vue({
   render: h => h(App),
   beforeMount: function () {
   },
-  router
+  router,
+  store,
 }).$mount('#app');
