@@ -3,7 +3,8 @@ import Vue from 'vue'
 
 const mutation = {
   SET_PLAY_LIST: 'setPlayList',
-  SET_AUDIO_DATA: 'setAudioData'
+  SET_AUDIO_DATA: 'setAudioData',
+  SET_AUDIO_ELE: 'setAudioEle'
 };
 
 const state = {
@@ -12,7 +13,8 @@ const state = {
   // audio模块
   audio: {
     // 所需字段必须提前定义，否则无法完成监听
-    data:null
+    data: null,
+    ele : null
   }
 };
 
@@ -30,9 +32,13 @@ const vueStore = new Vuex.Store({
       state.audio.data = list[0];
     },
 
-    [mutation.SET_AUDIO_DATA](state, data){
+    [mutation.SET_AUDIO_DATA](state, data) {
       console.log('mutation setAudioData');
       state.audio.data = data;
+    },
+
+    [mutation.SET_AUDIO_ELE](state, data){
+      state.audio.ele = data;
     }
   }
 });

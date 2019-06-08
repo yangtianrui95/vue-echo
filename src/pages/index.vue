@@ -9,7 +9,7 @@
     <music-list :list="musicList"></music-list>
     <!--通过添加一个wrapper，让music-bar能够在列表位置-->
     <div class="music-bar-wrapper">
-      <music-bar class="music-bar"></music-bar>
+      <music-bar class="music-bar" :play="playing" @playStatusChange="onPlayStatusChange"></music-bar>
     </div>
   </div>
 </template>
@@ -69,7 +69,8 @@
     data: function () {
       return {
         musicList: [],
-        musicBanner: []
+        musicBanner: [],
+        playing: false
       }
     },
 
@@ -83,7 +84,7 @@
       console.log('index.vue created this => ', this);
     },
 
-    mounted: function () {
+    mounted() {
       console.log('index.vue mount');
       this.getBannerData();
       this.getListData();
@@ -102,10 +103,14 @@
         mutation.SET_AUDIO_DATA
       ]),
 
+      onPlayStatusChange(val) {
+        this.playing = val;
+      },
 
       playAll: function () {
         console.log('playAll');
         this[mutation.SET_PLAY_LIST](this.musicList);
+        this.playing = true;
       },
 
       getBannerData: function () {
