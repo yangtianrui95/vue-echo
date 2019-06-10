@@ -7,6 +7,24 @@ const mutation = {
   SET_AUDIO_ELE: 'setAudioEle'
 };
 
+const _mutation = {
+  [mutation.SET_PLAY_LIST]: function (state, list) {
+    if (!list || !list.length) {
+      return;
+    }
+    state.playList = list;
+    state.audio.data = list[0];
+  },
+
+  [mutation.SET_AUDIO_DATA](state, data) {
+    state.audio.data = data;
+  },
+
+  [mutation.SET_AUDIO_ELE](state, data) {
+    state.audio.ele = data;
+  }
+};
+
 const state = {
   // 播放列表
   playList: [],
@@ -14,7 +32,7 @@ const state = {
   audio: {
     // 所需字段必须提前定义，否则无法完成监听
     data: null,
-    ele : null
+    ele: null
   }
 };
 
@@ -22,25 +40,7 @@ const state = {
 Vue.use(Vuex);
 const vueStore = new Vuex.Store({
   state,
-  mutations: {
-    [mutation.SET_PLAY_LIST]: function (state, list) {
-      console.log('mutation setPlayList', list);
-      if (!list || !list.length) {
-        return;
-      }
-      state.playList = list;
-      state.audio.data = list[0];
-    },
-
-    [mutation.SET_AUDIO_DATA](state, data) {
-      console.log('mutation setAudioData');
-      state.audio.data = data;
-    },
-
-    [mutation.SET_AUDIO_ELE](state, data){
-      state.audio.ele = data;
-    }
-  }
+  mutations: _mutation
 });
 
 export {vueStore, mutation}

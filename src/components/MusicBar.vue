@@ -10,7 +10,7 @@
       <div class="play-panel">
         <span @click="togglePlayList">列表</span>
         <span class="play" @click="onPlayClick">{{play ? '暂停' : '播放' }}</span>
-        <span>切换</span>
+        <span @click="switchAudio">切换</span>
       </div>
     </div>
     <!--弹出动画-->
@@ -188,7 +188,7 @@
 
     data() {
       return {
-        showPlayList: true
+        showPlayList: false
       }
     },
 
@@ -241,6 +241,22 @@
       playItem(item) {
         console.log('playItem ', item);
         this[mutation.SET_AUDIO_DATA](item);
+      },
+
+      switchAudio() {
+        if (!this.playList) {
+          return;
+        }
+        // 暂时不支持循环播放
+        let index = this.playList.indexOf(this.audio_data);
+        if (index < this.playList.length - 1) {
+          let nextPlay = this.playList[++index];
+          this[mutation.SET_AUDIO_DATA](nextPlay);
+        } else {
+          console.log("can't switch, current index is "
+            + index + " length is "
+            + this.playList.length);
+        }
       }
     },
 
