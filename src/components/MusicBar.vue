@@ -36,12 +36,11 @@
 </template>
 
 <style scoped lang="stylus">
-
   $musicbarHeight = 100px
   $primaryColor = #6ed56c
   .music-bar {
     background: white
-    width: 768px;
+    width: toRem(768)
     height: $musicbarHeight
     display flex
     flex-direction row

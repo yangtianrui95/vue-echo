@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="./amfe-flexible.js"></script>
+  <!--https://github.com/amfe/article/issues/17-->
+  <title>flexible</title>
+
+  <style>
+
+    body{
+      text-align: center;
+    }
+
+    div {
+      color: white;
+      margin: 0 10px;
+      display: inline-block;
+    }
+
+    .square {
+      background: red;
+      /*750px 中的176px 转换成rem: 176 / 750 / 10 rem*/
+      width: 2.3rem;
+      height: 2.3rem;
+    }
+
+    /*仅使用px的情况*/
+    .squareRaw {
+      background: green;
+      width: 176px;
+      height: 176px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="square">
+  使用rem适配
+</div>
+<div class="squareRaw">
+  仅适用px
+</div>
+
+<script>
+</script>
+</body>
+</html>

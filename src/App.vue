@@ -24,10 +24,6 @@
     padding: 0;
   }
 
-  html {
-    font-size 76.8px
-  }
-
   body {
     background: #f4f5f6
   }
