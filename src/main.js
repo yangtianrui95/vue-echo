@@ -5,6 +5,7 @@ import 'mint-ui/lib/style.css';
 import VueRouter from 'vue-router';
 import {vueStore as store} from "./store/index";
 import MainPage from './pages/index.vue'
+import VConsole from 'vconsole'
 
 // 引入mock
 import '@/mock'
@@ -36,3 +37,5 @@ new Vue({
   router,
   store,
 }).$mount('#app');
+
+// new VConsole();

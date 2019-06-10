@@ -97,7 +97,6 @@
       position absolute
       width: 100%
       bottom: $musicbarHeight
-      opacity 1
       background: white
 
       .popup-header {
