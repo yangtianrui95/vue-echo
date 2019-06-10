@@ -25,6 +25,8 @@
   }
 
   body {
+    // 去掉手指按下去的蓝色遮罩
+    -webkit-tap-highlight-color rgba(0,0,0,0)
     background: #f4f5f6
   }
 
