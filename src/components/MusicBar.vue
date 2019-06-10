@@ -99,6 +99,18 @@
     }
   }
 
+  .slideTop-enter-active, .slideTop-leave-active {
+    transition: all .5s;
+    bottom: 0
+  }
+
+  .slideTop-enter, .slideTop-leave-to {
+    opacity 0
+  // 存在选择器被覆盖不生效问题
+    bottom: 0 !important
+    position absolute !important
+  }
+
   .play-list {
     z-index: $playListZIndex
     font-size 0.33rem
@@ -157,18 +169,6 @@
     top: 0
     left: 0
     z-index $maskZIndex
-  }
-
-  .slideTop-enter-active, .slideTop-leave-active {
-    transition: all .5s;
-    bottom: 0
-  }
-
-  .slideTop-enter, .slideTop-leave-to {
-    opacity 0
-  // 存在选择器被覆盖不生效问题
-    bottom: 0 !important
-    position absolute !important
   }
 </style>
 
