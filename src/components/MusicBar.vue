@@ -1,17 +1,18 @@
 <template>
-  <div class="music-bar" v-if="audio_data">
-    <img :src="audio_data.sound.pic_500" alt="">
-    <div class="sound-info">
-      <div class="sound-title">{{audio_data.sound.name}}</div>
-      <div class="sound-author-name">{{audio_data.sound.user.name}}</div>
-    </div>
+  <div class="wrapper" v-if="audio_data">
+    <div class="music-bar">
+      <img :src="audio_data.sound.pic_500" alt="">
+      <div class="sound-info">
+        <div class="sound-title">{{audio_data.sound.name}}</div>
+        <div class="sound-author-name">{{audio_data.sound.user.name}}</div>
+      </div>
 
-    <div class="play-panel">
-      <span @click="togglePlayList">列表</span>
-      <span class="play" @click="onPlayClick">{{play ? '暂停' : '播放' }}</span>
-      <span>切换</span>
+      <div class="play-panel">
+        <span @click="togglePlayList">列表</span>
+        <span class="play" @click="onPlayClick">{{play ? '暂停' : '播放' }}</span>
+        <span>切换</span>
+      </div>
     </div>
-
     <!--弹出动画-->
     <transition name="slideTop">
       <div class="play-list" v-if="showPlayList">
@@ -30,15 +31,20 @@
         </ul>
       </div>
     </transition>
-
+    <div class="mask" v-if="showPlayList" @click="showPlayList=false"></div>
     <audio autoplay :src="audio_data.sound.source" id="audio"></audio>
   </div>
 </template>
 
 <style scoped lang="stylus">
-  $musicbarHeight = 100px
+  $musicbarHeight = toRem(100)
   $primaryColor = #6ed56c
+  $musicBarZIndex = 4
+  $playListZIndex = 3
+  $maskZIndex = 2
+
   .music-bar {
+    z-index: $musicBarZIndex
     background: white
     width: toRem(768)
     height: $musicbarHeight
@@ -91,55 +97,66 @@
         height: 75px
       }
     }
+  }
 
-    .play-list {
-      font-size 0.33rem
-      position absolute
-      width: 100%
-      bottom: $musicbarHeight
-      background: white
+  .play-list {
+    z-index: $playListZIndex
+    font-size 0.33rem
+    position absolute
+    width: 100%
+    bottom: $musicbarHeight
+    background: white
 
-      .popup-header {
-        $marginToBoound = 15px
-        text-align center
-        margin-top $marginToBoound
-        span {
-          color $primaryColor
-          .list-num {
-            font-size 0.3rem
-          }
-          &.clear {
-            float: left
-            margin-left $marginToBoound
-          }
-          &.more {
-            float: right
-            margin-right $marginToBoound
-          }
+    .popup-header {
+      $marginToBoound = 15px
+      text-align center
+      margin-top $marginToBoound
+      span {
+        color $primaryColor
+        .list-num {
+          font-size 0.3rem
         }
-      }
-
-      .popup-list {
-        max-height: 350px
-        overflow scroll
-        // 移除横向滚动条
-        overflow-x hidden
-        margin 0
-        padding 0
-
-        li {
-          padding: 15px
-          border-bottom: 1px solid #f4f4f4;
-          cursor pointer
-          .active{
-            color: $primaryColor
-          }
-          .delete {
-            float: right
-          }
+        &.clear {
+          float: left
+          margin-left $marginToBoound
+        }
+        &.more {
+          float: right
+          margin-right $marginToBoound
         }
       }
     }
+
+    .popup-list {
+      max-height: 350px
+      overflow scroll
+    // 移除横向滚动条
+      overflow-x hidden
+      margin 0
+      padding 0
+
+      li {
+        padding: 15px
+        border-bottom: 1px solid #f4f4f4;
+        cursor pointer
+        .active {
+          color: $primaryColor
+        }
+        .delete {
+          float: right
+        }
+      }
+    }
+  }
+
+  .mask {
+    opacity 0
+    width: 100%
+    height: 100%
+    position fixed
+    top: 0
+    left: 0
+    z-index $maskZIndex
   }
 
   .slideTop-enter-active, .slideTop-leave-active {
