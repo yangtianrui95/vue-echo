@@ -40,8 +40,8 @@
       display block
       width: 100%
       img {
-        width: 100%
-        min-height: 364px
+        width: toRem(364)
+        height: toRem(364)
       }
     }
 

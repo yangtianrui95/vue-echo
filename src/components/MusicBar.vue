@@ -53,16 +53,16 @@
     align-items center
 
     img {
-      width: 71px;
-      margin-left 10px
+      width: toRem(71)
+      margin-left toRem(10)
       border: 1px solid #ccc
       box-shadow 0 0 2px #AAA
-      height: 71px;
+      height: toRem(71)
     }
 
     .sound-info {
       font-size 0.30rem
-      margin-left 10px
+      margin-left toRem(10)
       /*todo 为何必须设置overflow */
       overflow hidden
 
@@ -80,11 +80,11 @@
       font-size 0.32rem
 
       span {
-        $size = 70px
+        $size = toRem(70)
         align-items center
         justify-content center
         float left
-        margin 5px 10px
+        margin toRem(5) toRem(10)
         width: $size
         height: $size
         display flex
@@ -93,14 +93,14 @@
         cursor pointer
       }
       .play {
-        width: 75px
-        height: 75px
+        width:toRem(75)
+        height: toRem(75)
       }
     }
   }
 
   .slideTop-enter-active, .slideTop-leave-active {
-    transition: all .5s;
+    transition: all .3s;
     bottom: 0
   }
 
