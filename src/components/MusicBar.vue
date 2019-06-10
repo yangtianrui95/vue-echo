@@ -22,8 +22,8 @@
           <span class="more">更多</span>
         </div>
         <ul class="popup-list">
-          <li v-for="item in playList">
-            <span>{{item.sound.name}}</span>
+          <li v-for="item in playList" @click="playItem(item)">
+            <span :class="{active:isSelected(item)}">{{item.sound.name}}</span>
             <!--TODO 替换icon-->
             <span class="delete">x</span>
           </li>
@@ -38,6 +38,7 @@
 <style scoped lang="stylus">
 
   $musicbarHeight = 100px
+  $primaryColor = #6ed56c
   .music-bar {
     background: white
     width: 768px;
@@ -104,7 +105,7 @@
         text-align center
         margin-top $marginToBoound
         span {
-          color #6ed56c
+          color $primaryColor
           .list-num {
             font-size 0.3rem
           }
@@ -130,6 +131,10 @@
         li {
           padding: 15px
           border-bottom: 1px solid #f4f4f4;
+          cursor pointer
+          .active{
+            color: $primaryColor
+          }
           .delete {
             float: right
           }
@@ -173,8 +178,13 @@
 
     methods: {
       ...mapMutations([
-        mutation.SET_AUDIO_ELE
+        mutation.SET_AUDIO_ELE,
+        mutation.SET_AUDIO_DATA
       ]),
+
+      isSelected(item) {
+        return item === this.audio_data;
+      },
 
       togglePlayList() {
         this.showPlayList = !this.showPlayList;
@@ -211,6 +221,11 @@
           this[mutation.SET_AUDIO_ELE](audio);
         })
       },
+
+      playItem(item) {
+        console.log('playItem ', item);
+        this[mutation.SET_AUDIO_DATA](item);
+      }
     },
 
     computed: {
@@ -225,7 +240,7 @@
       ...mapState(['playList']),
 
       totalCount() {
-        return 0;
+        return this.playList.length;
       }
     },
     watch: {
