@@ -13,6 +13,7 @@
         <span @click="switchAudio">切换</span>
       </div>
     </div>
+    <div class="progress-bar" :style="`width:${audioProgress}`"></div>
     <!--弹出动画-->
     <transition name="slideTop">
       <div class="play-list" v-if="showPlayList">
@@ -39,62 +40,66 @@
 <style scoped lang="stylus">
   $musicbarHeight = toRem(100)
   $primaryColor = #6ed56c
-  $musicBarZIndex = 4
-  $playListZIndex = 3
   $maskZIndex = 2
+  $playListZIndex = 3
+  $musicBarZIndex = 4
+  $progressZIndex = 5
 
-  .music-bar {
-    z-index: $musicBarZIndex
-    background: white
-    width: toRem(768)
-    height: $musicbarHeight
-    display flex
-    flex-direction row
-    align-items center
-
-    img {
-      width: toRem(71)
-      margin-left toRem(10)
-      border: 1px solid #ccc
-      box-shadow 0 0 2px #AAA
-      height: toRem(71)
-    }
-
-    .sound-info {
-      font-size 0.30rem
-      margin-left toRem(10)
-      /*todo 为何必须设置overflow */
-      overflow hidden
-
-      /*设置字体省略*/
-      .sound-title, .sound-author-name {
-        white-space nowrap
-        text-overflow ellipsis
-        overflow hidden
-      }
-    }
-
-    .play-panel {
+  // 尽量采取嵌套写法，防止类和外部定义的冲突
+  .wrapper {
+    .music-bar {
+      z-index: $musicBarZIndex
+      background: white
+      width: toRem(768)
+      height: $musicbarHeight
       display flex
+      flex-direction row
       align-items center
-      font-size 0.32rem
 
-      span {
-        $size = toRem(70)
-        align-items center
-        justify-content center
-        float left
-        margin toRem(5) toRem(10)
-        width: $size
-        height: $size
-        display flex
-        border: 1px solid #aaa
-        border-radius 100%
-        cursor pointer
+      img {
+        width: toRem(71)
+        margin-left toRem(10)
+        border: 1px solid #ccc
+        box-shadow 0 0 2px #AAA
+        height: toRem(71)
       }
-      .play {
-        width:toRem(75)
-        height: toRem(75)
+
+      .sound-info {
+        font-size 0.30rem
+        margin-left toRem(10)
+        /*todo 为何必须设置overflow */
+        overflow hidden
+
+        /*设置字体省略*/
+        .sound-title, .sound-author-name {
+          white-space nowrap
+          text-overflow ellipsis
+          overflow hidden
+        }
+      }
+
+      .play-panel {
+        display flex
+        align-items center
+        font-size 0.32rem
+
+        span {
+          $size = toRem(70)
+          align-items center
+          justify-content center
+          float left
+          margin toRem(5) toRem(10)
+          width: $size
+          height: $size
+          display flex
+          border: 1px solid #aaa
+          border-radius 100%
+          cursor pointer
+        }
+        .play {
+          width: toRem(75)
+          height: toRem(75)
+        }
       }
     }
   }
@@ -170,10 +175,18 @@
     left: 0
     z-index $maskZIndex
   }
+
+  .progress-bar {
+    position: absolute
+    height: toRem(3)
+    background: $primaryColor
+    bottom: 0
+    z-index $progressZIndex
+  }
 </style>
 
 <script>
-  import {mapMutations, mapState} from 'vuex'
+  import {mapMutations, mapState, mapGetters} from 'vuex'
   import {mutation} from '@/store'
 
   export default {
@@ -195,7 +208,9 @@
     methods: {
       ...mapMutations([
         mutation.SET_AUDIO_ELE,
-        mutation.SET_AUDIO_DATA
+        mutation.SET_AUDIO_DATA,
+        mutation.SET_AUDIO_TIME,
+        mutation.SET_AUDIO_DURATION,
       ]),
 
       isSelected(item) {
@@ -217,6 +232,10 @@
         this.$nextTick(() => {
           console.log('audioInit ---> $nextTick', this.$el);
           const audio = this.$el.querySelector('#audio');
+          audio.oncanplay = () => {
+            console.log('audio element oncanplay', audio.duration);
+            this[mutation.SET_AUDIO_DURATION](audio.duration);
+          };
           audio.onplay = () => {
             console.log('audio element onplay');
           };
@@ -231,7 +250,8 @@
             // TODO 继续播放下一首
           };
           audio.ontimeupdate = () => {
-            console.log('audio element ontimeupdate')
+            console.log('audio element ontimeupdate');
+            this[mutation.SET_AUDIO_TIME](Math.floor(audio.currentTime));
           };
           console.log(audio);
           this[mutation.SET_AUDIO_ELE](audio);
@@ -270,6 +290,8 @@
       }),
 
       ...mapState(['playList']),
+
+      ...mapGetters(['audioProgress']),
 
       totalCount() {
         return this.playList.length;
