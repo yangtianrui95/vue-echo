@@ -5,7 +5,9 @@ import 'mint-ui/lib/style.css';
 import VueRouter from 'vue-router';
 import {vueStore as store} from "./store/index";
 import MainPage from './pages/index.vue'
+import Article from './pages/article.vue'
 import VConsole from 'vconsole'
+
 
 // 引入mock
 import '@/mock'
@@ -20,8 +22,12 @@ const routes = [
     path: '/',
     component: MainPage,
     meta: {
-      keepAlive: false
+      keepAlive: true
     }
+  }, {
+    path: '/article',
+    name: 'article',
+    component: Article
   }
 ];
 

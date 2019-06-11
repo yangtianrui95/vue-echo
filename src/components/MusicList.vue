@@ -1,7 +1,7 @@
 <template>
   <ul class="list">
     <li class="list-item" v-for="item in list">
-      <router-link class="item-link" :to="{path :'detail', query:{'id': item.sound.id}}">
+      <router-link class="item-link" :to="{path :'article', query:{'id': item.sound.id}}">
         <div class="img-container">
           <img :src="item.sound.pic_500" alt="/">
           <div class="icon-hot"></div>

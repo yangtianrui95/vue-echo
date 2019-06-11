@@ -26,7 +26,13 @@ function getList(page) {
   return request(`/list?page=${page}`);
 }
 
+function getDetail(id) {
+  if (!id) {
+    return;
+  }
+  return request(`/detail?id=${id}`);
+}
 
 export default {
-  getBanner, getList
+  getBanner, getList, getDetail
 }

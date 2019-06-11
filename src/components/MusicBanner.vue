@@ -3,7 +3,7 @@
     <!--轮播-->
     <mt-swipe class="swiper" :auto="0">
       <mt-swipe-item v-for="(item, index) in list" class="swiper-item" :key="index">
-        <router-link :to="{path: 'detail', query:{'id':item.sound.id}}">
+        <router-link :to="{path: 'article', query:{'id':item.sound.id}}">
           <img :src="item.sound.pic_640" alt="">
         </router-link>
 
@@ -14,7 +14,7 @@
 
 
 <style scoped lang="stylus">
-  $bannerHeight = 4rem
+  $bannerHeight = toRem(300)
 
   #banner {
     width: 100%;

@@ -58,6 +58,10 @@ const getters = {
       return '0%';
     }
     return (currentTime / duration * 100).toFixed(2) + '%';
+  },
+
+  audioData(state) {
+    return state.audio.data;
   }
 
 };
