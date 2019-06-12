@@ -13,53 +13,48 @@
 </template>
 
 <style scoped lang="stylus">
-  .article-wrapper {
-    width: 100%
-    background: #f6f6f6
-    position relative
 
-    .author-header {
-      $usernameFontSize = toRem(33)
-      $followersFontSize = toRem(25)
-      height toRem(112)
+  .author-header {
+    $usernameFontSize = toRem(33)
+    $followersFontSize = toRem(25)
+    height toRem(112)
+    display flex
+    padding 0 toRem(30)
+
+    .left-container {
       display flex
-      padding 0 toRem(30)
+      flex-direction row
+      align-items center
 
-      .left-container {
-        display flex
-        flex-direction row
-        align-items center
-
-        img {
-          width: toRem(73)
-          height: toRem(73)
-          border-radius 100%
-        }
-
-        div {
-          margin-left toRem(30)
-          white-space nowrap
-          font-size $usernameFontSize
-          color #555
-        }
+      img {
+        width: toRem(73)
+        height: toRem(73)
+        border-radius 100%
       }
 
-      .right-container {
-        width: 30%
-        margin-left auto
-        display flex
-        flex-direction row
-        align-items center
-        justify-content center
-        font-size $followersFontSize
+      div {
+        margin-left toRem(30)
+        white-space nowrap
+        font-size $usernameFontSize
+        color #555
+      }
+    }
 
-        .user-fans-label {
-          color #555
-        }
+    .right-container {
+      width: 30%
+      margin-left auto
+      display flex
+      flex-direction row
+      align-items center
+      justify-content center
+      font-size $followersFontSize
 
-        .user-fans-value {
-          color #00ae05
-        }
+      .user-fans-label {
+        color #555
+      }
+
+      .user-fans-value {
+        color #00ae05
       }
     }
   }
@@ -67,9 +62,10 @@
 
 <script>
   import {mapGetters, mapState, mapMutations} from 'vuex'
+
   export default {
     name: 'UserInfo',
-    computed:{
+    computed: {
       ...mapGetters(['audioData']),
     }
   }

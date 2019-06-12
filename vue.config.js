@@ -14,7 +14,7 @@ module.exports = {
     loaderOptions: {
       stylus: {
         // 全局引入global.styl文件
-        import: [path.resolve(__dirname, './src/assets') + '/global.styl']
+        import: [path.resolve(__dirname, './src/assets') + '/index.styl']
       }
     }
   }
