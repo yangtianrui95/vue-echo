@@ -17,7 +17,7 @@
       </div>
     </div>
     <article-info></article-info>
-    <div class="sound-lyrics"></div>
+    <article-lyric></article-lyric>
   </div>
 </template>
 
@@ -92,6 +92,7 @@
   import net from '@/net'
   import UserInfo from "../components/UserInfo.vue";
   import ArticleInfo from "../components/ArticleInfo.vue";
+  import ArticleLyric from "../components/ArticleLyric.vue";
 
   export default {
     name: 'article',
@@ -101,7 +102,8 @@
 
     components: {
       UserInfo,
-      ArticleInfo
+      ArticleInfo,
+      ArticleLyric
     },
 
     computed: {

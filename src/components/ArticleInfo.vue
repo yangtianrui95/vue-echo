@@ -10,6 +10,7 @@
 <style scoped lang="stylus">
 
   .article-info-wrapper {
+    background white
     $height = toRem(102)
     $fontSize = toRem(24)
     $fontColor = #999

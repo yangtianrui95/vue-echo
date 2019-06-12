@@ -17,6 +17,7 @@
   .author-header {
     $usernameFontSize = toRem(33)
     $followersFontSize = toRem(25)
+    background: white
     height toRem(112)
     display flex
     padding 0 toRem(30)
