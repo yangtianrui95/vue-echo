@@ -33,6 +33,10 @@ function getDetail(id) {
   return request(`/detail?id=${id}`);
 }
 
+function getOther() {
+  return request('/other');
+}
+
 export default {
-  getBanner, getList, getDetail
+  getBanner, getList, getDetail, getOther
 }

@@ -18,6 +18,12 @@
     </div>
     <article-info></article-info>
     <article-lyric></article-lyric>
+    <div class="recommend">
+      <div class="recommend-title">
+        <a>相关推荐</a>
+      </div>
+      <music-list :list="recommendList"></music-list>
+    </div>
   </div>
 </template>
 
@@ -83,6 +89,23 @@
         }
       }
     }
+
+    .recommend {
+      width: 100%
+      margin-top toRem(20)
+      background: white
+      height: 100px
+      .recommend-title {
+        font-size toRem(29)
+        text-align center
+        padding: toRem(30) 0
+        color $primaryColor
+        a {
+          border-bottom toRem(1) solid $primaryColor
+          padding: 0 toRem(10)
+        }
+      }
+    }
   }
 </style>
 
@@ -93,17 +116,21 @@
   import UserInfo from "../components/UserInfo.vue";
   import ArticleInfo from "../components/ArticleInfo.vue";
   import ArticleLyric from "../components/ArticleLyric.vue";
+  import MusicList from "../components/MusicList.vue";
 
   export default {
     name: 'article',
     data() {
-      return {}
+      return {
+        recommendList: []
+      }
     },
 
     components: {
       UserInfo,
       ArticleInfo,
-      ArticleLyric
+      ArticleLyric,
+      MusicList
     },
 
     computed: {
@@ -121,6 +148,7 @@
     created() {
       console.log('article created', this.$route);
       this.getMusicData(this.id);
+      this.getRecommendList();
     },
 
     mounted() {
@@ -129,6 +157,17 @@
 
     methods: {
       ...mapMutations([mutation.SET_AUDIO_DATA]),
+
+      getRecommendList() {
+        net.getOther()
+          .then(response => {
+            console.log(response);
+            if (!response.code) {
+              this.recommendList = response.data;
+            }
+          })
+      },
+
       getMusicData() {
         console.log('getMusicData');
         net.getDetail(this.id)
@@ -143,18 +182,5 @@
           });
       }
     },
-
-    // FIXME keep-alive造成mounted/created不会回调，只能在此处监听，需修复
-    watch: {
-      // 监听路由变化
-//      $route() {
-//        console.log('$route change', this.$route);
-//        if (this.$route.name === 'article') {
-//          console.log('enter article');
-//          this.id = this.$route.query.id;
-//          this.getMusicData();
-//        }
-//      }
-    }
   }
 </script>
