@@ -9,7 +9,6 @@
 /*以my-icon开头或者以空格 + my-icon开头*/
 [class^="my-icon"], [class*=" my-icon"] {
     font-family: 'iconfont';
-    font-size: inherit;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

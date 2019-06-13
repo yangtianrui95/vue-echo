@@ -5,7 +5,10 @@
       <music-banner :list="musicBanner"></music-banner>
       <div class="recommend-title">echo每日推荐</div>
       <div class="wrapper">
-        <div class="playAll" @click="playAll">一键播放</div>
+        <div class="playAll" @click="playAll">
+          <i class="my-icon-arrow"></i>
+          一键播放
+        </div>
       </div>
       <music-list :list="musicList"></music-list>
       <!--通过添加一个wrapper，让music-bar能够在列表位置-->
@@ -43,10 +46,15 @@
     position: absolute
     left 0
     color: white
-    padding: 5px 30px
-    border-radius 30px
+    padding: toRem(5) toRem(25)
+    border-radius toRem(25)
     background: #6ed56c
-    top: 50px
+    top: toRem(50)
+    i {
+      background: white
+      color $primaryColor
+      border-radius 100%
+    }
   }
 
   .music-bar-wrapper {

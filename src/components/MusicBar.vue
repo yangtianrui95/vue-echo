@@ -8,9 +8,9 @@
       </div>
 
       <div class="play-panel">
-        <span @click="togglePlayList">列表</span>
-        <span class="play" @click="onPlayClick" :class="play? 'my-icon-pause':'my-icon-play'"></span>
-        <span @click="switchAudio">切换</span>
+        <span @click="togglePlayList" class="my-icon-menu"></span>
+        <span class="play" @click="onPlayClick" :class="play? 'my-icon-pause':'my-icon-arrow'"></span>
+        <span @click="switchAudio" class="my-icon-next"></span>
       </div>
     </div>
     <div class="progress-bar" :style="`width:${audioProgress}`"></div>
@@ -20,14 +20,12 @@
         <div class="popup-header">
           <span class="clear">清空</span>
           <span class="list-tip">播放列表<span class="list-num">({{totalCount}}首)</span></span>
-          <!--TODO 替换icon-->
-          <span class="more">更多</span>
+          <span class="more my-icon-more"></span>
         </div>
         <ul class="popup-list">
           <li v-for="item in playList" @click="playItem(item)">
             <span :class="{active:isSelected(item)}">{{item.sound.name}}</span>
-            <!--TODO 替换icon-->
-            <span class="delete">x</span>
+            <span class="delete my-icon-close"></span>
           </li>
         </ul>
       </div>
@@ -67,7 +65,6 @@
       .sound-info {
         font-size 0.30rem
         margin-left toRem(10)
-        /*todo 为何必须设置overflow */
         overflow hidden
 
         /*设置字体省略*/
@@ -81,7 +78,7 @@
       .play-panel {
         display flex
         align-items center
-        font-size .7rem
+        font-size .55rem
         color: #666
 
         span {
@@ -100,6 +97,7 @@
         .play {
           width: toRem(75)
           height: toRem(75)
+          font-size .7rem
         }
       }
     }
@@ -129,6 +127,8 @@
       $marginToBoound = 15px
       text-align center
       margin-top $marginToBoound
+      padding-bottom $marginToBoound
+      border-bottom toRem(1) solid #f4f4f4
       span {
         color $primaryColor
         .list-num {
@@ -140,6 +140,7 @@
         }
         &.more {
           float: right
+          font-size 0.4rem
           margin-right $marginToBoound
         }
       }
@@ -161,6 +162,7 @@
           color: $primaryColor
         }
         .delete {
+          color: #555
           float: right
         }
       }
