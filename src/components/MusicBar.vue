@@ -9,7 +9,7 @@
 
       <div class="play-panel">
         <span @click="togglePlayList">列表</span>
-        <span class="play" @click="onPlayClick">{{play ? '暂停' : '播放' }}</span>
+        <span class="play" @click="onPlayClick" :class="play? 'my-icon-pause':'my-icon-play'"></span>
         <span @click="switchAudio">切换</span>
       </div>
     </div>
@@ -81,7 +81,8 @@
       .play-panel {
         display flex
         align-items center
-        font-size 0.32rem
+        font-size .7rem
+        color: #666
 
         span {
           $size = toRem(70)

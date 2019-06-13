@@ -7,6 +7,7 @@ import {vueStore as store} from "./store/index";
 import MainPage from './pages/index.vue'
 import Article from './pages/article.vue'
 import VConsole from 'vconsole'
+import '@/assets/iconfont/iconfont.css'
 
 
 // 引入mock
