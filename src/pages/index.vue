@@ -1,16 +1,19 @@
 <template>
   <div>
-    <!--使用prop向子组件传递数据-->
-    <music-banner :list="musicBanner"></music-banner>
-    <div class="recommend-title">echo每日推荐</div>
-    <div class="wrapper">
-      <div class="playAll" @click="playAll">一键播放</div>
+    <div class="container" v-if="!loading">
+      <!--使用prop向子组件传递数据-->
+      <music-banner :list="musicBanner"></music-banner>
+      <div class="recommend-title">echo每日推荐</div>
+      <div class="wrapper">
+        <div class="playAll" @click="playAll">一键播放</div>
+      </div>
+      <music-list :list="musicList"></music-list>
+      <!--通过添加一个wrapper，让music-bar能够在列表位置-->
+      <div class="music-bar-wrapper">
+        <music-bar class="music-bar" :play="playing" @playStatusChange="onPlayStatusChange"></music-bar>
+      </div>
     </div>
-    <music-list :list="musicList"></music-list>
-    <!--通过添加一个wrapper，让music-bar能够在列表位置-->
-    <div class="music-bar-wrapper">
-      <music-bar class="music-bar" :play="playing" @playStatusChange="onPlayStatusChange"></music-bar>
-    </div>
+    <loading-bar v-if="loading"></loading-bar>
   </div>
 </template>
 
@@ -60,17 +63,19 @@
   import MusicList from '@/components/MusicList.vue'
   import MusicBar from '@/components/MusicBar.vue'
   import MusicBanner from '@/components/MusicBanner.vue'
+  import LoadingBar from '@/components/LoadingBar.vue'
   import net from '@/net'
   import {mutation} from '@/store'
   import {mapMutations, mapState} from 'vuex'
 
   export default {
     name: 'index',
-    data: function () {
+    data() {
       return {
         musicList: [],
         musicBanner: [],
-        playing: false
+        playing: false,
+        loading: true
       }
     },
 
@@ -107,13 +112,13 @@
         this.playing = val;
       },
 
-      playAll: function () {
+      playAll() {
         console.log('playAll');
         this[mutation.SET_PLAY_LIST](this.musicList);
         this.playing = true;
       },
 
-      getBannerData: function () {
+      getBannerData() {
         net.getBanner().then(response => {
           console.log(response);
           if (response.code) {
@@ -126,13 +131,15 @@
         })
       },
 
-      getListData: function () {
+      getListData() {
+        this.loading = true;
         net.getList(1).then(response => {
           console.log(response);
           if (response.code) {
             return;
           }
           this.musicList = response.data;
+          this.loading = false;
         }).catch(err => {
           console.error(err);
         })
@@ -140,7 +147,7 @@
     },
 
     components: {
-      MusicList, MusicBanner, MusicBar
+      MusicList, MusicBanner, MusicBar, LoadingBar
     }
   }
 </script>

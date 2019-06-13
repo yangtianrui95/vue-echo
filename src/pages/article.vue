@@ -1,29 +1,32 @@
 <template>
-  <div class="article-wrapper" v-if="audioData && audioData.sound">
-    <user-info></user-info>
-    <div class="play-panel">
-      <img :src="audioData.sound.pic_500" alt="">
-      <div class="progress-num">
-      </div>
-      <div class="control-panel">
-        <div class="play-status"> {{isPlaying ? '暂停' : '播放'}} </div>
-        <div class="sound-info">
-          <div>{{audioData.sound.name}}</div>
-          <span class="sound-author">{{audioData.sound.user.name}}</span>
-          <span>发布在</span>
-          <span class="sound-channel">{{audioData.sound.channel.name}}</span>
-          <span>频道</span>
+  <div class="container">
+    <div class="article-wrapper" v-if="!loading && audioData && audioData.sound">
+      <user-info></user-info>
+      <div class="play-panel">
+        <img :src="audioData.sound.pic_500" alt="">
+        <div class="progress-num">
+        </div>
+        <div class="control-panel">
+          <div class="play-status"> {{isPlaying ? '暂停' : '播放'}} </div>
+          <div class="sound-info">
+            <div>{{audioData.sound.name}}</div>
+            <span class="sound-author">{{audioData.sound.user.name}}</span>
+            <span>发布在</span>
+            <span class="sound-channel">{{audioData.sound.channel.name}}</span>
+            <span>频道</span>
+          </div>
         </div>
       </div>
-    </div>
-    <article-info></article-info>
-    <article-lyric></article-lyric>
-    <div class="recommend">
-      <div class="recommend-title">
-        <a>相关推荐</a>
+      <article-info></article-info>
+      <article-lyric></article-lyric>
+      <div class="recommend">
+        <div class="recommend-title">
+          <a>相关推荐</a>
+        </div>
+        <music-list :list="recommendList"></music-list>
       </div>
-      <music-list :list="recommendList"></music-list>
     </div>
+    <loading-bar v-if="loading"></loading-bar>
   </div>
 </template>
 
@@ -117,12 +120,14 @@
   import ArticleInfo from "../components/ArticleInfo.vue";
   import ArticleLyric from "../components/ArticleLyric.vue";
   import MusicList from "../components/MusicList.vue";
+  import LoadingBar from "../components/LoadingBar.vue";
 
   export default {
     name: 'article',
     data() {
       return {
-        recommendList: []
+        recommendList: [],
+        loading: true
       }
     },
 
@@ -130,7 +135,8 @@
       UserInfo,
       ArticleInfo,
       ArticleLyric,
-      MusicList
+      MusicList,
+      LoadingBar
     },
 
     computed: {
@@ -147,8 +153,7 @@
 
     created() {
       console.log('article created', this.$route);
-      this.getMusicData(this.id);
-      this.getRecommendList();
+      this.initial();
     },
 
     mounted() {
@@ -157,6 +162,12 @@
 
     methods: {
       ...mapMutations([mutation.SET_AUDIO_DATA]),
+
+      initial() {
+        this.loading = true;
+        this.getMusicData(this.id);
+        this.getRecommendList();
+      },
 
       getRecommendList() {
         net.getOther()
@@ -176,11 +187,23 @@
               console.log(response);
               this[mutation.SET_AUDIO_DATA](response.data);
             }
+            this.loading = false;
           })
           .catch(err => {
             console.error(err);
           });
       }
     },
+
+    watch: {
+      $route(to, from) {
+        console.log('$route change', arguments);
+        if (this.$route.name !== 'article'
+          || to.query.id === from.query.id) {
+          return;
+        }
+        this.initial();
+      }
+    }
   }
 </script>
