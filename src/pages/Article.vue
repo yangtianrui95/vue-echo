@@ -7,7 +7,7 @@
         <div class="progress-num">
         </div>
         <div class="control-panel">
-          <div class="play-status"> {{isPlaying ? '暂停' : '播放'}} </div>
+          <div class="play-status" :class="isPlaying ? 'my-icon-pause' : 'my-icon-arrow'"></div>
           <div class="sound-info">
             <div>{{audioData.sound.name}}</div>
             <span class="sound-author">{{audioData.sound.user.name}}</span>
@@ -66,7 +66,7 @@
         height: $controlHeight
 
         .play-status {
-          $fontSize = toRem(20)
+          $fontSize = .6rem
           $size = toRem(78)
           width: $size
           height: $size
@@ -147,7 +147,7 @@
       },
 
       isPlaying() {
-        return false;
+        return !!this.audioData;
       }
     },
 
