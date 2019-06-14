@@ -11,10 +11,6 @@
         </div>
       </div>
       <music-list :list="musicList"></music-list>
-      <!--通过添加一个wrapper，让music-bar能够在列表位置-->
-      <div class="music-bar-wrapper">
-        <music-bar class="music-bar" :play="playing" @playStatusChange="onPlayStatusChange"></music-bar>
-      </div>
     </div>
     <loading-bar v-if="loading"></loading-bar>
   </div>
@@ -50,26 +46,17 @@
     border-radius toRem(25)
     background: #6ed56c
     top: toRem(50)
+
     i {
       background: white
       color $primaryColor
       border-radius 100%
     }
   }
-
-  .music-bar-wrapper {
-    .music-bar {
-      position: fixed
-      bottom: 0
-    }
-  }
-
-
 </style>
 
 <script>
   import MusicList from '@/components/MusicList.vue'
-  import MusicBar from '@/components/MusicBar.vue'
   import MusicBanner from '@/components/MusicBanner.vue'
   import LoadingBar from '@/components/LoadingBar.vue'
   import net from '@/net'
@@ -90,7 +77,9 @@
     computed: {
       ...mapState({
         audio_data: state => state.audio.data
-      })
+      }),
+
+      ...mapState(['isPlaying']),
     },
 
     created() {
@@ -122,8 +111,10 @@
 
       playAll() {
         console.log('playAll');
-        this[mutation.SET_PLAY_LIST](this.musicList);
-        this.playing = true;
+        this[mutation.SET_PLAY_LIST]({
+          list: this.musicList,
+          needPlay: true
+        });
       },
 
       getBannerData() {
@@ -155,7 +146,7 @@
     },
 
     components: {
-      MusicList, MusicBanner, MusicBar, LoadingBar
+      MusicList, MusicBanner, LoadingBar
     }
   }
 </script>

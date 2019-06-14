@@ -4,13 +4,21 @@
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!--通过添加一个wrapper，让music-bar能够在列表位置-->
+    <div class="music-bar-wrapper">
+      <music-bar class="container"></music-bar>
+    </div>
   </div>
 </template>
 
 <script>
+  import MusicBar from '@/components/MusicBar.vue'
+
   export default {
     name: 'app',
-    components: {},
+    components: {
+      MusicBar
+    },
 
     beforeMount: function () {
     }
@@ -19,6 +27,12 @@
 </script>
 
 <style lang="stylus">
+  .music-bar-wrapper {
+    .container {
+      position: fixed
+      bottom: 0
+    }
+  }
 
   * {
     margin: 0;
@@ -26,7 +40,7 @@
   }
 
   body {
-  // 去掉手指按下去的蓝色遮罩
+    // 去掉手指按下去的蓝色遮罩
     -webkit-tap-highlight-color rgba(0, 0, 0, 0)
     background: #f4f5f6
   }

@@ -7,19 +7,23 @@ const mutation = {
   SET_AUDIO_ELE: 'setAudioEle',
   SET_AUDIO_TIME: 'setAudioTime',
   SET_AUDIO_DURATION: 'setAudioDuration',
+  SET_PLAY_STATUS: 'setPlayStatus',
 };
 
 const _mutation = {
-  [mutation.SET_PLAY_LIST]: function (state, list) {
+
+  [mutation.SET_PLAY_LIST](state, {list, needPlay}) {
     if (!list || !list.length) {
       return;
     }
     state.playList = list;
     state.audio.data = list[0];
+    state.isPlaying = needPlay;
   },
 
-  [mutation.SET_AUDIO_DATA](state, data) {
+  [mutation.SET_AUDIO_DATA](state, {data, needPlay}) {
     state.audio.data = data;
+    state.isPlaying = needPlay;
   },
 
   [mutation.SET_AUDIO_ELE](state, data) {
@@ -32,10 +36,15 @@ const _mutation = {
 
   [mutation.SET_AUDIO_DURATION](state, data) {
     state.audio.duration = data;
+  },
+
+  [mutation.SET_PLAY_STATUS](state, data) {
+    state.isPlaying = data;
   }
 };
 
 const state = {
+  isPlaying: false,
   // 播放列表
   playList: [],
   // audio模块

@@ -9,7 +9,7 @@
 
       <div class="play-panel">
         <span @click="togglePlayList" class="my-icon-menu"></span>
-        <span class="play" @click="onPlayClick" :class="play? 'my-icon-pause':'my-icon-arrow'"></span>
+        <span class="play" @click="onPlayClick" :class="isPlaying? 'my-icon-pause':'my-icon-arrow'"></span>
         <span @click="switchAudio" class="my-icon-next"></span>
       </div>
     </div>
@@ -195,13 +195,6 @@
   export default {
     name: 'MusicBar',
 
-    props: {
-      play: {
-        type: Boolean,
-        default: false
-      }
-    },
-
     data() {
       return {
         showPlayList: false
@@ -214,6 +207,7 @@
         mutation.SET_AUDIO_DATA,
         mutation.SET_AUDIO_TIME,
         mutation.SET_AUDIO_DURATION,
+        mutation.SET_PLAY_STATUS,
       ]),
 
       isSelected(item) {
@@ -225,10 +219,12 @@
       },
 
       onPlayClick() {
-        console.log('onPlayClick', this.play);
+        console.log('onPlayClick', this.isPlaying);
         // vue中父向子传递的数据是单向数据流，子组件中需要避免修改props中的值
         // 使用emit发送事件，让父组件更新值
-        this.$emit('playStatusChange', !this.play);
+        //this.$emit('playStatusChange', !this.play);
+        // 直接使用vuex中的状态，便于向其他组件传递
+        this[mutation.SET_PLAY_STATUS](!this.isPlaying);
       },
 
       audioInit() {
@@ -292,7 +288,7 @@
         audio_ele: state => state.audio.ele,
       }),
 
-      ...mapState(['playList']),
+      ...mapState(['playList', 'isPlaying']),
 
       ...mapGetters(['audioProgress']),
 
@@ -307,7 +303,7 @@
           this.audioInit();
         }
       },
-      play(val) {
+      isPlaying(val) {
         console.log('watch play ', val);
         if (!this.audio_ele) {
           return;

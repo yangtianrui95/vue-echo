@@ -141,14 +141,11 @@
 
     computed: {
       ...mapGetters(['audioData']),
+      ...mapState(['isPlaying']),
 
       id() {
         return this.$route.query.id;
       },
-
-      isPlaying() {
-        return !!this.audioData;
-      }
     },
 
     created() {
@@ -185,7 +182,10 @@
           .then(response => {
             if (!response.code) {
               console.log(response);
-              this[mutation.SET_AUDIO_DATA](response.data);
+              this[mutation.SET_AUDIO_DATA]({
+                data:response.data,
+                needPlay: true
+              });
             }
             this.loading = false;
           })
