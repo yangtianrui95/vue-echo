@@ -5,6 +5,8 @@
       <div class="play-panel">
         <img :src="audioData.sound.pic_500" alt="">
         <div class="progress-num">
+          <span>{{audio.currentTime | sec2his}} / {{audio.duration | sec2his}}</span>
+          <div class="progress" :style="{width: audioProgress}"></div>
         </div>
         <div class="control-panel">
           <div class="play-status" :class="isPlaying ? 'my-icon-pause' : 'my-icon-arrow'"></div>
@@ -53,6 +55,18 @@
         bottom: $controlHeight
         height: toRem(32)
         background: rgba(0, 0, 0, 0.2)
+
+        span {
+          left toRem(5)
+          font-size 0.32rem
+          position: absolute
+        }
+
+        .progress {
+          background: rgba(110,213,108,0.2)
+          height: 100%
+          border-right toRem(10) solid $primaryColor
+        }
       }
 
       .control-panel {
@@ -81,9 +95,11 @@
 
         .sound-info {
           font-size toRem(29)
+
           span {
             font-size toRem(24)
             margin: 0 toRem(3)
+
             &.sound-channel, &.sound-author {
               color $primaryColor
               margin: 0
@@ -98,11 +114,13 @@
       margin-top toRem(20)
       background: white
       height: 100px
+
       .recommend-title {
         font-size toRem(29)
         text-align center
         padding: toRem(30) 0
         color $primaryColor
+
         a {
           border-bottom toRem(1) solid $primaryColor
           padding: 0 toRem(10)
@@ -141,7 +159,8 @@
 
     computed: {
       ...mapGetters(['audioData']),
-      ...mapState(['isPlaying']),
+      ...mapGetters(['audioProgress']),
+      ...mapState(['isPlaying', 'audio']),
 
       id() {
         return this.$route.query.id;
@@ -183,7 +202,7 @@
             if (!response.code) {
               console.log(response);
               this[mutation.SET_AUDIO_DATA]({
-                data:response.data,
+                data: response.data,
                 needPlay: true
               });
             }

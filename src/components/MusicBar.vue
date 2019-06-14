@@ -250,7 +250,7 @@
           };
           audio.ontimeupdate = () => {
             console.log('audio element ontimeupdate');
-            this[mutation.SET_AUDIO_TIME](Math.floor(audio.currentTime));
+            this[mutation.SET_AUDIO_TIME](audio.currentTime);
           };
           console.log(audio);
           this[mutation.SET_AUDIO_ELE](audio);

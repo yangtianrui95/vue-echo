@@ -8,8 +8,8 @@ import MainPage from './pages/Index.vue'
 import Article from './pages/Article.vue'
 import VConsole from 'vconsole'
 import '@/assets/iconfont/iconfont.css'
-
-
+// 引入filter
+import '@/filter'
 // 引入mock
 import '@/mock'
 
