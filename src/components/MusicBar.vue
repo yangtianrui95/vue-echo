@@ -235,6 +235,7 @@
           audio.oncanplay = () => {
             console.log('audio element oncanplay', audio.duration);
             this[mutation.SET_AUDIO_DURATION](audio.duration);
+            audio.play();
           };
           audio.onplay = () => {
             console.log('audio element onplay');
