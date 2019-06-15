@@ -23,7 +23,7 @@
           <span class="more my-icon-more"></span>
         </div>
         <ul class="popup-list">
-          <li v-for="item in playList" @click="playItem(item)">
+          <li v-for="(item, index) in playList" :key="index" @click="playItem(item)">
             <span :class="{active:isSelected(item)}">{{item.sound.name}}</span>
             <span class="delete my-icon-close"></span>
           </li>

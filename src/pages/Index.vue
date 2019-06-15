@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-infinite-scroll="onLoadMore">
     <div class="container" v-if="!loading">
       <!--使用prop向子组件传递数据-->
       <music-banner :list="musicBanner"></music-banner>
@@ -11,6 +11,7 @@
         </div>
       </div>
       <music-list :list="musicList"></music-list>
+      <nomore-content v-if="loadEnd"></nomore-content>
     </div>
     <loading-bar v-if="loading"></loading-bar>
   </div>
@@ -59,6 +60,7 @@
   import MusicList from '@/components/MusicList.vue'
   import MusicBanner from '@/components/MusicBanner.vue'
   import LoadingBar from '@/components/LoadingBar.vue'
+  import NomoreContent from '@/components/NomoreContent.vue'
   import net from '@/net'
   import {mutation} from '@/store'
   import {mapMutations, mapState} from 'vuex'
@@ -70,7 +72,10 @@
         musicList: [],
         musicBanner: [],
         playing: false,
-        loading: true
+        loading: true,
+        currentPage: 0,
+        loadMoreOnGoing: false,
+        loadEnd: false,
       }
     },
 
@@ -105,6 +110,32 @@
         mutation.SET_AUDIO_DATA
       ]),
 
+      onLoadMore() {
+        if (this.loading || this.loadMoreOnGoing || this.loadEnd) {
+          console.log('ignore onloadmore');
+          return;
+        }
+        console.log('onloadmore ', this.currentPage);
+        this.loadMoreOnGoing = true;
+        net.getList(this.currentPage + 1)
+          .then(response => {
+            if (!response || !response.data || !response.data.length) {
+              this.loadEnd = true;
+              this.loadMoreOnGoing = false;
+              return;
+            }
+            console.log('#####loadmore currentPage' + (this.currentPage + 1) + '#####', response);
+            this.currentPage++;
+            this.loadMoreOnGoing = false;
+            this.musicList = this.musicList.concat(response.data);
+          })
+          .catch(err => {
+            console.log('#####loadmoreError#####', err);
+            this.loadEnd = true;
+            this.loadMoreOnGoing = false;
+          })
+      },
+
       onPlayStatusChange(val) {
         this.playing = val;
       },
@@ -132,13 +163,14 @@
 
       getListData() {
         this.loading = true;
-        net.getList(1).then(response => {
+        net.getList(this.currentPage + 1).then(response => {
           console.log(response);
           if (response.code) {
             return;
           }
           this.musicList = response.data;
           this.loading = false;
+          this.currentPage++;
         }).catch(err => {
           console.error(err);
         })
@@ -146,7 +178,7 @@
     },
 
     components: {
-      MusicList, MusicBanner, LoadingBar
+      MusicList, MusicBanner, LoadingBar, NomoreContent
     }
   }
 </script>

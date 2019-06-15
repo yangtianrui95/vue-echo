@@ -63,7 +63,7 @@
         }
 
         .progress {
-          background: rgba(110,213,108,0.2)
+          background: rgba(110, 213, 108, 0.2)
           height: 100%
           border-right toRem(10) solid $primaryColor
         }
