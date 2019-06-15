@@ -23,6 +23,7 @@
   $fontSize = 0.32rem
 
   .recommend-title {
+    font-weight bold
     width: 3.2rem
     height: 0.7rem
     font-size $fontSize
@@ -43,9 +44,10 @@
     position: absolute
     left 0
     color: white
-    padding: toRem(5) toRem(25)
+    padding: toRem(10) toRem(25)
     border-radius toRem(25)
     background: #6ed56c
+    font-weight bold
     top: toRem(50)
 
     i {
