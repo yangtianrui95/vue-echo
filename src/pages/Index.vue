@@ -127,7 +127,7 @@
             console.log('#####loadmore currentPage' + (this.currentPage + 1) + '#####', response);
             this.currentPage++;
             this.loadMoreOnGoing = false;
-            this.musicList = this.musicList.concat(response.data);
+            response.data.forEach(item => this.musicList.push(item));
           })
           .catch(err => {
             console.log('#####loadmoreError#####', err);
@@ -171,6 +171,10 @@
           this.musicList = response.data;
           this.loading = false;
           this.currentPage++;
+          this[mutation.SET_PLAY_LIST] ({
+            list: this.musicList,
+            needPlay: false
+          });
         }).catch(err => {
           console.error(err);
         })

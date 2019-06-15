@@ -76,6 +76,7 @@
       }
 
       .play-panel {
+        margin-left auto
         display flex
         align-items center
         font-size .55rem
@@ -259,7 +260,10 @@
 
       playItem(item) {
         console.log('playItem ', item);
-        this[mutation.SET_AUDIO_DATA](item);
+        this[mutation.SET_AUDIO_DATA]({
+          data: item,
+          needPlay: true
+        });
       },
 
       switchAudio() {
@@ -303,17 +307,6 @@
           this.audioInit();
         }
       },
-      isPlaying(val) {
-        console.log('watch play ', val);
-        if (!this.audio_ele) {
-          return;
-        }
-        if (!val) {
-          this.audio_ele.pause();
-        } else {
-          this.audio_ele.play();
-        }
-      }
     }
   }
 </script>

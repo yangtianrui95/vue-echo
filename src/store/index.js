@@ -17,8 +17,10 @@ const _mutation = {
       return;
     }
     state.playList = list;
-    state.audio.data = list[0];
-    state.isPlaying = needPlay;
+    if (needPlay) {
+      state.audio.data = list[0];
+      state.isPlaying = needPlay;
+    }
   },
 
   [mutation.SET_AUDIO_DATA](state, {data, needPlay}) {
@@ -40,6 +42,11 @@ const _mutation = {
 
   [mutation.SET_PLAY_STATUS](state, data) {
     state.isPlaying = data;
+    if (data && state.audio.ele) {
+      state.audio.ele.play();
+    } else {
+      state.audio.ele.pause();
+    }
   }
 };
 
